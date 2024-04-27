@@ -34,7 +34,7 @@ async function saveToInventory(sale) {
     });
 
     inventory.quantity -= product.quantity;
-    inventory.sales = [...inventory.sales, sale._id];
+    inventory.sales.push(sale._id);
     await inventory.save();
   }
 }

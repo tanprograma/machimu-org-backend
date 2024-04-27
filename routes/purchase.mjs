@@ -8,17 +8,16 @@ router.get("/", async (req, res) => {
   res.send({ result: purchases });
 });
 router.post("/create", async (req, res) => {
-  console.log(req, body.payload);
-  // const purchase = await PurchasesModel.create(req.body.payload);
-
-  // await saveToInventory(purchase);
-  res.send({ result: req.body.payload });
+  const purchase = await PurchasesModel.create(req.body.payload);
+  console.log(purchase);
+  await saveToInventory(purchase);
+  // res.send({ result: req.body.payload });
   res.send({ result: purchase });
 });
 router.post("/createmany", async (req, res) => {
   // creates many records
   const purchase = await PurchasesModel.create(req.body.payload);
-
+  console.log(purchase);
   for (let i = 0; i < purchase.length; i++) {
     const product = purchase[i];
     saveToInventory(product);
@@ -31,9 +30,13 @@ async function saveToInventory(purchase) {
     const inventory = await InventoryModel.findOne({
       product: product.product,
     });
+    console.log({
+      product,
+      inventory,
+    });
 
     inventory.quantity -= product.quantity;
-    inventory.sales = [...inventory.sales, sale._id];
+    inventory.purchases.push(purchase._id);
     await inventory.save();
   }
 }

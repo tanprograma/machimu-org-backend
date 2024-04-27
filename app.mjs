@@ -11,7 +11,7 @@ app.use("/inventories", Inventory);
 app.use("/sales", Sale);
 app.use("/purchases", Purchase);
 const PORT = process.env.PORT || 3000;
-const connString = process.env.API || "";
+const connString = process.env.DB_URI || "";
 const connectDB = () => {
   return mongoose.connect(connString);
 };
