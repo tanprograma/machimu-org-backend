@@ -1,5 +1,8 @@
 import { Schema, model } from "mongoose";
 const schema = new Schema({
-  purchases: { type: [{ product: String, quantity: Number, price: Number }] },
+  items: {
+    type: [{ product: String, quantity: Number, price: Number }],
+  },
+  date: { type: Date, default: () => Date.now() },
 });
 export const PurchasesModel = model("Purchase", schema);
